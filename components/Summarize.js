@@ -7,7 +7,7 @@ function Summarize() {
     [summarizedText, setSummarizedText] = useState("");
 
     const config = new Configuration({
-        apiKey: "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",
+        apiKey: "ENTER YOUR OPENAI API KEY HERE",
     });
     const openai = new OpenAIApi(config);
     
@@ -38,7 +38,7 @@ function Summarize() {
     return (
         <View style={styles.container}>
             <TextInput placeholder="Input text to be summarized" onChange={inputHandler} value={enteredText} />
-            <Button title="Summarize" onPress={submitHandler} />
+                <Button title="Summarize" onPress={submitHandler} />
             <Text>{summarizedText}</Text>
         </View>
     );
