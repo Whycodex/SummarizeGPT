@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { Configuration, OpenAIApi } from "openai";
 import axios from "axios";
 
 function Summarize() {
