@@ -1,52 +1,72 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { Text, StyleSheet, TextInput, Button, SafeAreaView, ScrollView } from "react-native";
 import axios from "axios";
 
 function Summarize() {
-    [enteredText, setEnteredText] = useState("");
-    [summarizedText, setSummarizedText] = useState("");
+  const [enteredText, setEnteredText] = useState("");
+  const [summarizedText, setSummarizedText] = useState("");
 
-    function inputHandler(e) {
-        setEnteredText(e.target.value);
-    }
+  const summarizeText = async () => {
+    try {
+        const apiKey = 'APIKEY HERE'
+        const apiURL = 'https://api.openai.com/v1/chat/completions';
 
-    function submitHandler(e) {
-        e.preventDefault();
-
-        const options = {
-            method: 'POST',
-            url: 'https://tldrthis.p.rapidapi.com/v1/model/abstractive/summarize-url/',
-            headers: {
-                'content-type': 'application/json',
-                'X-RapidAPI-Key': 'YOUR API KEY HERE',
-                'X-RapidAPI-Host': 'tldrthis.p.rapidapi.com'
+        const response = await axios.post(
+            apiURL,
+            {
+                "model": "gpt-3.5-turbo",
+                "messages": [{"role": "user", "content": enteredText}],
+                "temperature": 0.7
             },
-            data: '{"url":"https://techcrunch.com/2019/08/12/verizon-is-selling-tumblr-to-wordpress-parent-automattic/","min_length":100,"max_length":300,"is_detailed":false}'
-        };
-
-        axios.request(options).then(function (response) {
-            console.log(response.data);
-            setSummarizedText(response.data.summary);
-        }).catch(function (error) {
-            console.error(error);
-        });
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                }
+            }
+        )
+        console.log(response.choices[0].message.content);
+        setSummarizedText(response.choices[0].message.content);
+    } catch (error) {
+        console.log(error);
     }
+  }
 
-    return (
-        <View style={styles.container}>
-            <TextInput placeholder="Input text to be summarized" onChange={inputHandler} value={enteredText} />
-            <Button title="Summarize" onPress={submitHandler} />
-            <Text>{summarizedText}</Text>
-        </View>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>SummarizeGPT</Text>
+      <ScrollView style={styles.inputOutput}>
+        <TextInput
+          placeholder="Please enter the text to be summarized here"
+          onChangeText={setEnteredText}
+          multiline
+        />
+      </ScrollView>
+      <Button title="Summarize" color={"#000"} onPress={summarizeText} />
+      <ScrollView style={styles.inputOutput}>
+        <Text>{summarizedText}</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 export default Summarize;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  container: {
+    flex: 1,
+    margin: 20,
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: "800",
+  },
+  inputOutput: {
+    borderWidth: 1,
+    height: 300,
+    borderRadius: 4,
+    padding: 10,
+    marginVertical: 10,
+  },
 });

@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import Summarize from './components/Summarize';
 import "react-native-url-polyfill/auto";
 
