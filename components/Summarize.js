@@ -11,8 +11,9 @@ import {
 function Summarize() {
   const [enteredText, setEnteredText] = useState("");
   const [summarizedText, setSummarizedText] = useState("");
+  
   const summarizeText = async () => {
-    const apiKey = "API KEY";
+    const apiKey = "API KEY HERE";
     const apiURL = "https://api.openai.com/v1/chat/completions";
 
     const requestOptions = {
