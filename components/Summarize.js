@@ -12,7 +12,7 @@ function Summarize() {
   const [enteredText, setEnteredText] = useState("");
   const [summarizedText, setSummarizedText] = useState("");
   const summarizeText = async () => {
-    const apiKey = "API KEY HERE";
+    const apiKey = "API KEY";
     const apiURL = "https://api.openai.com/v1/chat/completions";
 
     const requestOptions = {
@@ -23,7 +23,12 @@ function Summarize() {
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: enteredText }],
+        messages: [
+          {
+            role: "user",
+            content: `Summarize this text in as less words as possible - ${enteredText}`,
+          },
+        ],
         temperature: 0.7,
       }),
     };
@@ -77,15 +82,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   text: {
-    color: '#fff',
-    backgroundColor: '#000',
+    color: "#fff",
+    backgroundColor: "#000",
     fontSize: 14,
     fontWeight: 800,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 4
-  }
+    borderRadius: 4,
+  },
 });
