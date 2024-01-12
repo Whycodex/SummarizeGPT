@@ -13,7 +13,7 @@ function Summarize() {
   const [summarizedText, setSummarizedText] = useState("");
   
   const summarizeText = async () => {
-    const apiKey = "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";
+    const apiKey = "API KEY HERE";
     const apiURL = "https://api.openai.com/v1/chat/completions";
 
     const requestOptions = {
